@@ -47,21 +47,6 @@ What you actually need before each demo works, not before the file opens.
 └── 05-intelligise.md
 ```
 
-## Publish the pack live (GitHub Pages)
-
-`index.html` is live at **[brynjarjoh.github.io/Nordic_Summit](https://brynjarjoh.github.io/Nordic_Summit/)**. Sitting at repo root, it needed no build step and no static site generator — just Pages pointed at the root of `main`.
-
-For anyone forking this repo and wanting their own copy live:
-
-1. Push the repo to GitHub.
-2. **Settings → Pages → Source** → *Deploy from a branch*.
-3. Branch: `main`, folder: `/ (root)`. Save.
-4. After a minute or two, it's live at `https://<your-username>.github.io/<repo-name>/`.
-
-## Before you copy any AL
-
-Object IDs in this repo (`50100`–`50199`) are placeholders in Microsoft's own documented convention for examples — they are not reserved for you. Replace them with your own extension's assigned object ID range before compiling.
-
 ## Licence
 
 MIT — see [LICENSE](./LICENSE). Use it, fork it, take it into a client scoping call.
