@@ -7,7 +7,7 @@ Speaker: Brynjar Jóhannesson, Wise.
 
 The session itself runs as a tool-selection map delivered through five stories, not five live demos. These files are where the "five demos" promise actually lands — one artefact per step, each grounded in a real, recurring consulting problem. **Generalized and anonymized: no file here is tied to a specific client or engagement.**
 
-For the tool-selection map, the data gate, and fillable story templates, see the [session repo pack](https://claude.ai/artifact/VL7fBoQyUYtBw1edPUPhxm).
+For the tool-selection map, the data gate, and fillable story templates, see [`index.html`](./index.html) — live at **[brynjarjoh.github.io/Nordic_Summit](https://brynjarjoh.github.io/Nordic_Summit/)**.
 
 ## The five steps
 
@@ -39,12 +39,24 @@ What you actually need before each demo works, not before the file opens.
 .
 ├── README.md
 ├── LICENSE
+├── index.html          ← the tool-selection map / cheap moves / templates / horizon pack
 ├── 01-trigger.md
 ├── 02-automate.md
 ├── 03-extend.md
 ├── 04-connect.md
 └── 05-intelligise.md
 ```
+
+## Publish the pack live (GitHub Pages)
+
+`index.html` is live at **[brynjarjoh.github.io/Nordic_Summit](https://brynjarjoh.github.io/Nordic_Summit/)**. Sitting at repo root, it needed no build step and no static site generator — just Pages pointed at the root of `main`.
+
+For anyone forking this repo and wanting their own copy live:
+
+1. Push the repo to GitHub.
+2. **Settings → Pages → Source** → *Deploy from a branch*.
+3. Branch: `main`, folder: `/ (root)`. Save.
+4. After a minute or two, it's live at `https://<your-username>.github.io/<repo-name>/`.
 
 ## Before you copy any AL
 
