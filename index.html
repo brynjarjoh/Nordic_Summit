@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zero to Hero — Session Repo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F4EF;
+    --paper-raised:#FBFAF7;
+    --ink:#1C2B33;
+    --ink-soft:#54646B;
+    --line:#DCD7CB;
+    --teal:#1B7A72;
+    --teal-soft:#E4EFEE;
+    --amber:#A65A22;
+    --amber-soft:#F5E6D6;
+    --max:820px;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#161D21;
+      --paper-raised:#1D262B;
+      --ink:#EDEAE2;
+      --ink-soft:#9AA8AC;
+      --line:#33403F;
+      --teal:#3FB3A6;
+      --teal-soft:#1E3634;
+      --amber:#E08A4C;
+      --amber-soft:#3A2A1C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#161D21;
+    --paper-raised:#1D262B;
+    --ink:#EDEAE2;
+    --ink-soft:#9AA8AC;
+    --line:#33403F;
+    --teal:#3FB3A6;
+    --teal-soft:#1E3634;
+    --amber:#E08A4C;
+    --amber-soft:#3A2A1C;
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--paper);}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--teal-soft);}
+  a{color:var(--teal);}
+
+  .rule-top{height:5px;background:linear-gradient(90deg,var(--teal),var(--teal) 60%,var(--amber));}
+
+  header{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:56px 24px 32px;
+  }
+  header .kicker{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--teal);
+    letter-spacing:0.02em;
+    margin-bottom:14px;
+  }
+  header h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(32px,5vw,46px);
+    line-height:1.08;
+    margin:0 0 16px;
+    max-width:14ch;
+  }
+  header .dek{
+    font-size:18px;
+    color:var(--ink-soft);
+    max-width:56ch;
+    margin:0 0 20px;
+  }
+  header .byline{
+    font-size:14px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--line);
+    padding-top:16px;
+  }
+
+  nav.tabs{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 24px;
+    display:flex;
+    gap:28px;
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:env(safe-area-inset-top,0px);
+    background:var(--paper);
+    z-index:10;
+  }
+  nav.tabs button{
+    appearance:none;
+    background:none;
+    border:none;
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+    font-weight:600;
+    color:var(--ink-soft);
+    padding:16px 2px 14px;
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+  }
+  nav.tabs button.active{
+    color:var(--ink);
+    border-bottom-color:var(--teal);
+  }
+  nav.tabs button:hover{color:var(--ink);}
+
+  main{max-width:var(--max);margin:0 auto;padding:40px 24px 30px;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:26px;
+    margin:0 0 6px;
+  }
+  .panel-intro{
+    color:var(--ink-soft);
+    max-width:58ch;
+    margin:0 0 32px;
+    font-size:15px;
+  }
+
+  /* --- Map table --- */
+  table.map{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14.5px;
+  }
+  table.map th{
+    text-align:left;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:13px;
+    color:var(--ink-soft);
+    padding:0 14px 10px 0;
+    border-bottom:1px solid var(--ink);
+  }
+  table.map td{
+    padding:14px 14px 14px 0;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.map td:first-child{width:34%;}
+  table.map td:nth-child(2){width:24%;font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:var(--teal);font-weight:500;}
+  table.map td:last-child{color:var(--amber);}
+  table.map tr:last-child td{border-bottom:none;}
+
+  h3.sub{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:18px;
+    margin:36px 0 10px;
+  }
+  h3.sub:first-of-type{margin-top:0;}
+
+  /* --- Data gate --- */
+  table.gate{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14.5px;
+  }
+  table.gate th{
+    text-align:left;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:13px;
+    color:var(--ink-soft);
+    padding:0 14px 10px 0;
+    border-bottom:1px solid var(--ink);
+  }
+  table.gate td{
+    padding:14px 14px 14px 0;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.gate td:first-child{font-weight:700;width:15%;}
+  table.gate td:last-child{color:var(--teal);font-weight:600;white-space:nowrap;}
+  table.gate tr:last-child td{border-bottom:none;}
+  .punchline{
+    font-size:14.5px;
+    font-style:italic;
+    color:var(--ink-soft);
+    margin:16px 0 0;
+    padding-left:14px;
+    border-left:2px solid var(--amber);
+  }
+
+  /* --- Horizon --- */
+  .horizon-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0 32px;
+    margin-top:4px;
+  }
+  .horizon-grid h3{
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink-soft);
+    letter-spacing:0.01em;
+    margin:0 0 12px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--ink);
+  }
+  .horizon-grid ul{list-style:none;margin:0;padding:0;}
+  .horizon-grid li{
+    padding:11px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14.5px;
+  }
+  .horizon-grid li:last-child{border-bottom:none;}
+  .horizon-grid .col-above li{color:var(--ink-soft);}
+  .horizon-note{
+    font-size:13px;
+    color:var(--ink-soft);
+    font-style:italic;
+    margin-top:22px;
+  }
+  @media (max-width:560px){
+    .horizon-grid{grid-template-columns:1fr;gap:20px 0;}
+  }
+
+  /* --- Cheap moves --- */
+  .move{
+    display:grid;
+    grid-template-columns:32px 1fr;
+    gap:0 18px;
+    padding:22px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .move:last-child{border-bottom:none;}
+  .move .num{
+    font-family:'Fraunces',serif;
+    font-size:20px;
+    color:var(--line);
+    font-weight:600;
+  }
+  .move h3{
+    font-family:'Inter',sans-serif;
+    font-size:16.5px;
+    font-weight:700;
+    margin:0 0 2px;
+  }
+  .move .tool{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    color:var(--teal);
+    margin-bottom:12px;
+  }
+  .move .row{
+    display:flex;
+    gap:10px;
+    font-size:14.5px;
+    padding:9px 12px;
+    border-radius:3px;
+    margin-bottom:6px;
+  }
+  .move .row:last-child{margin-bottom:0;}
+  .move .row .tag{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    flex:0 0 auto;
+    padding-top:1px;
+  }
+  .move .pitfall{background:var(--amber-soft);}
+  .move .pitfall .tag{color:var(--amber);}
+  .move .fix{background:var(--teal-soft);}
+  .move .fix .tag{color:var(--teal);}
+
+  /* --- Templates --- */
+  .tmpl{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:24px 24px 20px;
+    margin-bottom:22px;
+  }
+  .tmpl-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:14px;
+    margin-bottom:16px;
+  }
+  .tmpl-head h3{
+    font-family:'Fraunces',serif;
+    font-size:19px;
+    font-weight:600;
+    margin:0;
+  }
+  .tmpl-head .tool{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    color:var(--teal);
+    white-space:nowrap;
+  }
+  .tmpl .example{
+    font-size:13px;
+    color:var(--ink-soft);
+    font-style:italic;
+    margin-bottom:16px;
+  }
+  .tmpl .example b{font-style:normal;color:var(--ink);}
+  .field{margin-bottom:13px;}
+  .field label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:4px;
+  }
+  .field input, .field textarea{
+    width:100%;
+    font-family:'Inter',sans-serif;
+    font-size:14.5px;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:9px 10px;
+    resize:vertical;
+  }
+  .field input:focus, .field textarea:focus{outline:2px solid var(--teal);outline-offset:0;border-color:var(--teal);}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;}
+  .tmpl-foot{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:6px;
+  }
+  .copy-btn{
+    appearance:none;
+    border:1px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    padding:8px 14px;
+    border-radius:3px;
+    cursor:pointer;
+  }
+  .copy-btn:hover{background:var(--teal);border-color:var(--teal);}
+  .copy-btn.done{background:var(--teal);border-color:var(--teal);}
+
+  footer{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:20px 24px 70px;
+  }
+  footer blockquote{
+    font-family:'Fraunces',serif;
+    font-size:19px;
+    font-style:italic;
+    color:var(--ink);
+    border-left:2px solid var(--teal);
+    padding-left:18px;
+    margin:20px 0;
+    max-width:56ch;
+  }
+  footer .meta{
+    font-size:13px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--line);
+    padding-top:16px;
+  }
+  footer .print-btn{
+    background:none;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    padding:7px 12px;
+    border-radius:3px;
+    cursor:pointer;
+    margin-left:10px;
+  }
+
+  @media print{
+    nav.tabs, .copy-btn, .print-btn{display:none !important;}
+    .panel{display:block !important;margin-bottom:40px;}
+    .rule-top{display:none;}
+    body{font-size:12.5px;}
+  }
+  @media (max-width:560px){
+    .field-row{grid-template-columns:1fr;}
+    .move{grid-template-columns:24px 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="rule-top"></div>
+
+<header>
+  <div class="kicker">Nordic Summit 2026 · Session repo</div>
+  <h1>From Zero to Hero — the pack to take home</h1>
+  <p class="dek">The tool-selection map, the five cheap moves, and blank templates for your own five client stories — Trigger, Automate, Extend, Connect, Intelligise.</p>
+  <p class="byline">By Brynjar Jóhannesson at Wise, for Nordic Summit 2026 in Billund. Built to go with the "From Zero to Hero: 5 Steps to Automation in Business Central" session.</p>
+</header>
+
+<nav class="tabs">
+  <button class="active" data-tab="map">The Map</button>
+  <button data-tab="moves">Five Cheap Moves</button>
+  <button data-tab="templates">Write Your Own Story</button>
+  <button data-tab="horizon">The Horizon</button>
+</nav>
+
+<main>
+
+  <!-- PANEL 1: MAP -->
+  <section class="panel active" id="panel-map">
+    <h2>The Map</h2>
+    <p class="panel-intro">Two references, used in sequence. The data gate says what the data may touch; the map says which tool gets you there.</p>
+
+    <h3 class="sub">The Data Gate</h3>
+    <table class="gate">
+      <thead>
+        <tr><th>Tier</th><th>What it is</th><th>Rule</th><th>Reach</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Operational</td><td>Transactional, internal, reversible</td><td>Automate end to end</td><td>Steps 1–5</td></tr>
+        <tr><td>Supervised</td><td>Client-facing, approval-sensitive</td><td>AI reads and suggests, a named human approves</td><td>Steps 1–5, human gate</td></tr>
+        <tr><td>Restricted</td><td>Privileged, confidential, regulated</td><td>No AI access, often no automation</td><td>Steps 1–3 at most</td></tr>
+      </tbody>
+    </table>
+    <p class="punchline">Supervised data means a human approves; full autonomy means none. That caps you by arithmetic, not by timidity.</p>
+
+    <h3 class="sub">The Tool Map</h3>
+    <table class="map">
+      <thead>
+        <tr><th>What you need</th><th>Reach for</th><th>Do not, when</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>React to something inside BC, no code</td><td>Workflow Engine</td><td>The condition is not in the published event</td></tr>
+        <tr><td>Send it somewhere outside BC</td><td>Power Automate + BC connector</td><td>High volume, or duplicates would hurt</td></tr>
+        <tr><td>React to something on your own objects</td><td>AL workflow event</td><td>You are rebuilding standard</td></tr>
+        <tr><td>Real time, you own both ends</td><td>HttpClient / API page</td><td>It must not be lost — queue it instead</td></tr>
+        <tr><td>It must not be lost, or must survive an outage</td><td>Service Bus / queue</td><td>A connector retry is genuinely enough</td></tr>
+        <tr><td>Judgement you cannot write down</td><td>AI Builder / Copilot</td><td>The rule is knowable, or the data is restricted</td></tr>
+        <tr><td>A capable BC user could do it through pages and actions</td><td>BC native agent</td><td>The work is analytical or spans systems</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- PANEL 2: CHEAP MOVES -->
+  <section class="panel" id="panel-moves">
+    <h2>Five Cheap Moves</h2>
+    <p class="panel-intro">One pitfall and one mitigation per step. None of these cost a sprint — they cost an hour, before you start.</p>
+
+    <div class="move">
+      <div class="num">1</div>
+      <div>
+        <h3>Trigger</h3>
+        <div class="tool">BC Workflow Engine</div>
+        <div class="row pitfall"><span class="tag">PITFALL</span><span>You quoted AL hours for something that ships in the box.</span></div>
+        <div class="row fix"><span class="tag">MOVE</span><span>Read the workflow event list before scoping.</span></div>
+      </div>
+    </div>
+
+    <div class="move">
+      <div class="num">2</div>
+      <div>
+        <h3>Automate</h3>
+        <div class="tool">Power Automate + BC connector</div>
+        <div class="row pitfall"><span class="tag">PITFALL</span><span>It ran twice. Now there are two postings.</span></div>
+        <div class="row fix"><span class="tag">MOVE</span><span>One page: every flow, its owner, where failures land.</span></div>
+      </div>
+    </div>
+
+    <div class="move">
+      <div class="num">3</div>
+      <div>
+        <h3>Extend</h3>
+        <div class="tool">AL workflow events</div>
+        <div class="row pitfall"><span class="tag">PITFALL</span><span>You're rebuilding standard before you publish the event.</span></div>
+        <div class="row fix"><span class="tag">MOVE</span><span>Search the base app for the event first.</span></div>
+      </div>
+    </div>
+
+    <div class="move">
+      <div class="num">4</div>
+      <div>
+        <h3>Connect</h3>
+        <div class="tool">HttpClient / API pages</div>
+        <div class="row pitfall"><span class="tag">PITFALL</span><span>Silent failure is the expensive kind.</span></div>
+        <div class="row fix"><span class="tag">MOVE</span><span>Daily count, source vs BC, alert on mismatch.</span></div>
+      </div>
+    </div>
+
+    <div class="move">
+      <div class="num">5</div>
+      <div>
+        <h3>Intelligise</h3>
+        <div class="tool">AI Builder + Copilot</div>
+        <div class="row pitfall"><span class="tag">PITFALL</span><span>Do not pay a language model to run an IF statement.</span></div>
+        <div class="row fix"><span class="tag">MOVE</span><span>Four numbers on one page — the lowest one is your next project.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL 3: TEMPLATES -->
+  <section class="panel" id="panel-templates">
+    <h2>Write Your Own Story</h2>
+    <p class="panel-intro">The session used five composites — Bergvall, Kvartal, Nordlys, Havstrøm, Dalgaard. Fill these in with your own client at each step, then use "Copy as Markdown" to drop it straight into your repo or case-file.</p>
+
+    <!-- Template 1 -->
+    <div class="tmpl" data-step="Trigger">
+      <div class="tmpl-head"><h3>1 · Trigger</h3><span class="tool">BC Workflow Engine</span></div>
+      <p class="example"><b>Session example:</b> Bergvall Engros, Nordic wholesale, 120 staff — quoted AL hours for a trigger that already existed in the published event list.</p>
+      <div class="field"><label>Client</label><input type="text" data-field="client"></div>
+      <div class="field-row">
+        <div class="field"><label>Sector & size</label><input type="text" data-field="sector"></div>
+        <div class="field"><label>Result</label><input type="text" data-field="result"></div>
+      </div>
+      <div class="field"><label>Situation before</label><textarea rows="2" data-field="situation"></textarea></div>
+      <div class="field"><label>What told you this was a Trigger problem, not a build</label><textarea rows="2" data-field="signal"></textarea></div>
+      <div class="field"><label>Pitfall hit or dodged</label><textarea rows="2" data-field="pitfall"></textarea></div>
+      <div class="field"><label>Cheap move used</label><textarea rows="2" data-field="move"></textarea></div>
+      <div class="tmpl-foot"><button class="copy-btn">Copy as Markdown</button></div>
+    </div>
+
+    <!-- Template 2 -->
+    <div class="tmpl" data-step="Automate">
+      <div class="tmpl-head"><h3>2 · Automate</h3><span class="tool">Power Automate + BC connector</span></div>
+      <p class="example"><b>Session example:</b> Kvartal Eiendom, property group, multiple entities — a flow fired twice and posted the same transaction twice.</p>
+      <div class="field"><label>Client</label><input type="text" data-field="client"></div>
+      <div class="field-row">
+        <div class="field"><label>Sector & size</label><input type="text" data-field="sector"></div>
+        <div class="field"><label>Result</label><input type="text" data-field="result"></div>
+      </div>
+      <div class="field"><label>Situation before</label><textarea rows="2" data-field="situation"></textarea></div>
+      <div class="field"><label>What told you this was an Automate problem</label><textarea rows="2" data-field="signal"></textarea></div>
+      <div class="field"><label>Pitfall hit or dodged</label><textarea rows="2" data-field="pitfall"></textarea></div>
+      <div class="field"><label>Cheap move used</label><textarea rows="2" data-field="move"></textarea></div>
+      <div class="tmpl-foot"><button class="copy-btn">Copy as Markdown</button></div>
+    </div>
+
+    <!-- Template 3 -->
+    <div class="tmpl" data-step="Extend">
+      <div class="tmpl-head"><h3>3 · Extend</h3><span class="tool">AL workflow events</span></div>
+      <p class="example"><b>Session example:</b> Nordlys Pensjon, regulated contribution collection — nearly rebuilt a workflow event the base app already published.</p>
+      <div class="field"><label>Client</label><input type="text" data-field="client"></div>
+      <div class="field-row">
+        <div class="field"><label>Sector & size</label><input type="text" data-field="sector"></div>
+        <div class="field"><label>Result</label><input type="text" data-field="result"></div>
+      </div>
+      <div class="field"><label>Situation before</label><textarea rows="2" data-field="situation"></textarea></div>
+      <div class="field"><label>What told you this was an Extend problem</label><textarea rows="2" data-field="signal"></textarea></div>
+      <div class="field"><label>Pitfall hit or dodged</label><textarea rows="2" data-field="pitfall"></textarea></div>
+      <div class="field"><label>Cheap move used</label><textarea rows="2" data-field="move"></textarea></div>
+      <div class="tmpl-foot"><button class="copy-btn">Copy as Markdown</button></div>
+    </div>
+
+    <!-- Template 4 -->
+    <div class="tmpl" data-step="Connect">
+      <div class="tmpl-head"><h3>4 · Connect</h3><span class="tool">HttpClient / API pages</span></div>
+      <p class="example"><b>Session example:</b> Havstrøm Marin, exporter with webshop + warehouse — an integration failed silently before anyone caught the stock mismatch.</p>
+      <div class="field"><label>Client</label><input type="text" data-field="client"></div>
+      <div class="field-row">
+        <div class="field"><label>Sector & size</label><input type="text" data-field="sector"></div>
+        <div class="field"><label>Result</label><input type="text" data-field="result"></div>
+      </div>
+      <div class="field"><label>Situation before</label><textarea rows="2" data-field="situation"></textarea></div>
+      <div class="field"><label>What told you this was a Connect problem</label><textarea rows="2" data-field="signal"></textarea></div>
+      <div class="field"><label>Pitfall hit or dodged</label><textarea rows="2" data-field="pitfall"></textarea></div>
+      <div class="field"><label>Cheap move used</label><textarea rows="2" data-field="move"></textarea></div>
+      <div class="tmpl-foot"><button class="copy-btn">Copy as Markdown</button></div>
+    </div>
+
+    <!-- Template 5 -->
+    <div class="tmpl" data-step="Intelligise">
+      <div class="tmpl-head"><h3>5 · Intelligise</h3><span class="tool">AI Builder + Copilot</span></div>
+      <p class="example"><b>Session example:</b> Dalgaard Industri, manufacturer, 1,100 invoices/month — measured suggestion accuracy per field instead of assuming it worked everywhere.</p>
+      <div class="field"><label>Client</label><input type="text" data-field="client"></div>
+      <div class="field-row">
+        <div class="field"><label>Sector & size</label><input type="text" data-field="sector"></div>
+        <div class="field"><label>Result</label><input type="text" data-field="result"></div>
+      </div>
+      <div class="field"><label>Situation before</label><textarea rows="2" data-field="situation"></textarea></div>
+      <div class="field"><label>What told you this was an Intelligise problem</label><textarea rows="2" data-field="signal"></textarea></div>
+      <div class="field"><label>Pitfall hit or dodged</label><textarea rows="2" data-field="pitfall"></textarea></div>
+      <div class="field"><label>Cheap move used</label><textarea rows="2" data-field="move"></textarea></div>
+      <div class="tmpl-foot"><button class="copy-btn">Copy as Markdown</button></div>
+    </div>
+
+  </section>
+
+  <!-- PANEL 4: HORIZON -->
+  <section class="panel" id="panel-horizon">
+    <h2>The Horizon</h2>
+    <p class="panel-intro">Shown, not taught — 30 seconds on what sits above this session. Kept here mainly for the "what about BC agents?" question in Q&A.</p>
+    <div class="horizon-grid">
+      <div class="col-covered">
+        <h3>What today covered</h3>
+        <ul>
+          <li>Trigger — BC Workflow Engine</li>
+          <li>Automate — Power Automate + BC connector</li>
+          <li>Extend — AL workflow events</li>
+          <li>Connect — HttpClient / API pages</li>
+          <li>Intelligise — AI Builder + Copilot</li>
+        </ul>
+      </div>
+      <div class="col-above">
+        <h3>What sits above it</h3>
+        <ul>
+          <li>BC native agents</li>
+          <li>Copilot Studio as coordinator</li>
+          <li>Azure Functions and Service Bus</li>
+          <li>Process intelligence</li>
+        </ul>
+      </div>
+    </div>
+    <p class="horizon-note">Droppable without loss if the session runs over — this tab exists for after, not instead of, the talk.</p>
+  </section>
+
+</main>
+
+<footer>
+  <blockquote>Use agents to interpret, reason, and decide what should happen. Use deterministic services to execute and guarantee how it happens.</blockquote>
+  <p class="meta">
+    Nordic Summit 2026 · Billund · Room Icons, 16:15<br>
+    Repo: <a href="https://claude.ai/artifact/VL7fBoQyUYtBw1edPUPhxm">claude.ai/artifact/VL7fBoQyUYtBw1edPUPhxm</a> — same link goes on slide 23's QR code
+    <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+  </p>
+</footer>
+
+<script>
+  // Tab switching
+  const tabs = document.querySelectorAll('nav.tabs button');
+  const panels = {
+    map: document.getElementById('panel-map'),
+    moves: document.getElementById('panel-moves'),
+    templates: document.getElementById('panel-templates'),
+    horizon: document.getElementById('panel-horizon')
+  };
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      Object.values(panels).forEach(p => p.classList.remove('active'));
+      panels[btn.dataset.tab].classList.add('active');
+    });
+  });
+
+  // Copy as Markdown
+  document.querySelectorAll('.tmpl').forEach(tmpl => {
+    const step = tmpl.dataset.step;
+    const tool = tmpl.querySelector('.tmpl-head .tool').textContent;
+    const btn = tmpl.querySelector('.copy-btn');
+    btn.addEventListener('click', () => {
+      const get = (f) => {
+        const el = tmpl.querySelector(`[data-field="${f}"]`);
+        return el && el.value.trim() ? el.value.trim() : '—';
+      };
+      const md = `### ${step} — ${get('client')}\n` +
+        `**Tool:** ${tool}\n` +
+        `**Sector & size:** ${get('sector')}\n` +
+        `**Result:** ${get('result')}\n\n` +
+        `**Situation before:** ${get('situation')}\n\n` +
+        `**Signal it was a ${step} problem:** ${get('signal')}\n\n` +
+        `**Pitfall:** ${get('pitfall')}\n\n` +
+        `**Cheap move:** ${get('move')}\n`;
+      navigator.clipboard.writeText(md).then(() => {
+        btn.textContent = 'Copied';
+        btn.classList.add('done');
+        setTimeout(() => { btn.textContent = 'Copy as Markdown'; btn.classList.remove('done'); }, 1600);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
